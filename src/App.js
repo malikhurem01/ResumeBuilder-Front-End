@@ -1,8 +1,14 @@
+import React from "react";
+
+import RegistrationComponent from "./Components/RegistrationComponent";
+import LoginComponent from "./Components/LoginComponent";
+
 function App() {
-  return (
-    <div className="App">
-    </div>
-  );
+
+  return <React.Fragment>
+    <LoginComponent />
+      <RegistrationComponent />
+    </React.Fragment>
 }
 
 export default App;
