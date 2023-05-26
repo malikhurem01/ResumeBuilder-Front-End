@@ -1,14 +1,7 @@
-import React from "react";
+import PDFEditor from './Components/PDFEditor';
 
-import RegistrationComponent from "./Components/RegistrationComponent";
-import LoginComponent from "./Components/LoginComponent";
-
-function App() {
-
-  return <React.Fragment>
-    <LoginComponent />
-      <RegistrationComponent />
-    </React.Fragment>
-}
+const App = () => {
+  return <PDFEditor />;
+};
 
 export default App;
