@@ -1,0 +1,107 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+
+.formsContainer {
+  background-color: rgb(120, 171, 241);
+  width: 50%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+.forms {
+  padding: 5px;
+  background-color: rgb(231, 241, 245);
+  border-radius: 3px;
+  align-self: center;
+  justify-self: center;
+  width: 75%;
+  height: 80%;
+  overflow-y: scroll;
+}
+
+.forms::-webkit-scrollbar {
+  width: 0.4em;
+}
+
+.forms::-webkit-scrollbar-track {
+  border-radius: 10px;
+  box-shadow: inset 0 0 6px rgba(102, 105, 141, 0.3);
+}
+
+.forms::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: rgb(165, 180, 184);
+}
+
+.languagesBody {
+  padding: 25px;
+  margin: 10px;
+}
+
+.removeButton {
+  min-width: 150px;
+  width: 50%;
+}
+
+.addButton {
+  min-width: 150px;
+  width: 50%;
+  transform: translateX(50%);
+}
+
+.languageItem {
+  width: 100%;
+  padding: 25px;
+  border-radius: 5px;
+  border: 2px solid rgb(147, 184, 235);
+  margin-bottom: 15px;
+}
+
+.languageItem select {
+  min-height: 6.7vh;
+}
+
+.viewer {
+  position: relative;
+  height: 100%;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.renderer {
+  position: relative;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 100000;
+  font-family: sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 30px;
+  font-weight: bold;
+  padding-bottom: 150px;
+}
