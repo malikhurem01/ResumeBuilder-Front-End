@@ -80,7 +80,8 @@ const styles = StyleSheet.create({
   },
   mainSectionItemTitle: {
     fontStyle: 'bold',
-    fontSize: '11.5px'
+    fontSize: '11.5px',
+    maxWidth: '80%'
   },
   mainSectionItemDate: {
     marginTop: '3px'

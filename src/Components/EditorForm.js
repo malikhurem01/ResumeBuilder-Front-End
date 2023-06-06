@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import {
   Form,
@@ -8,6 +8,8 @@ import {
   Accordion,
   Button
 } from 'react-bootstrap';
+
+import uploadImageLogo from '../Assets/cameraIcon.png';
 
 import classes from './PDFEditor.module.css';
 
@@ -25,9 +27,17 @@ const EditorForm = ({ handleInputData, handlePDFLoading }) => {
   const [email, setEmail] = useState('');
 
   const [experiences, setExperiences] = useState({ set: [] });
+  const [education, setEducation] = useState({ set: [] });
   const [languages, setLanguages] = useState({ set: [] });
   const [skills, setSkills] = useState({ set: [] });
   const [links, setLinks] = useState({ set: [] });
+
+  const imageUploadInput = useRef();
+
+  const [profileImage, setProfileImage] = useState({
+    hasProfileImage: false,
+    image: uploadImageLogo
+  });
 
   const handleFirstNameInput = ev => {
     setFirstName(ev.target.value);
@@ -80,6 +90,42 @@ const EditorForm = ({ handleInputData, handlePDFLoading }) => {
       return UPDATED_STATE;
     });
   };
+  //
+  const handleAddEducation = () => {
+    setEducation(prevState => {
+      const UPDATED_STATE = { set: [...prevState.set, {}] };
+      return UPDATED_STATE;
+    });
+  };
+  const handleModifyEducation = ev => {
+    let value, field, position;
+    value = ev.target.value;
+    field = ev.target.getAttribute('id');
+
+    if (ev.target.id.includes('presentWorkSwitch')) {
+      position = ev.target.getAttribute('educationid');
+
+      if (ev.target.value === 'on') ev.target.value = 'off';
+      else ev.target.value = 'on';
+    } else {
+      position = ev.target.parentNode.getAttribute('educationid');
+    }
+    setEducation(prevState => {
+      const UPDATED_STATE = { set: [...prevState.set] };
+      UPDATED_STATE.set[position][field] = value;
+      UPDATED_STATE.set[position].id = position;
+      return UPDATED_STATE;
+    });
+  };
+
+  const handleRemoveEducation = ev => {
+    setEducation(prevState => {
+      const UPDATED_STATE = { set: [...prevState.set] };
+      UPDATED_STATE.set.splice(ev.target.id, 1);
+      return UPDATED_STATE;
+    });
+  };
+  //
 
   const handleRemoveLanguage = ev => {
     setLanguages(prevState => {
@@ -186,7 +232,9 @@ const EditorForm = ({ handleInputData, handlePDFLoading }) => {
         experiences,
         languages,
         skills,
-        links
+        links,
+        education,
+        profileImage
       });
     }, 800);
 
@@ -214,9 +262,17 @@ const EditorForm = ({ handleInputData, handlePDFLoading }) => {
     languages,
     skills,
     links,
+    education,
+    profileImage,
     handleInputData,
     handlePDFLoading
   ]);
+
+  const handleUploadImage = ev => {
+    URL.revokeObjectURL(profileImage.src);
+    const image = URL.createObjectURL(ev.target.files[0]);
+    setProfileImage({ hasProfileImage: true, image: image });
+  };
 
   return (
     <Form className={classes.forms}>
@@ -224,6 +280,41 @@ const EditorForm = ({ handleInputData, handlePDFLoading }) => {
         <Accordion.Item eventKey="0">
           <Accordion.Header>Personal Details</Accordion.Header>
           <Accordion.Body>
+            <div
+              className={`${classes.imageUploadContainer} ${
+                profileImage.hasProfileImage ? classes.imageBorder : ''
+              }`}
+            >
+              <img src={profileImage.image} alt="upload logo icon" />
+              <input
+                id="fileInput"
+                onChange={handleUploadImage}
+                ref={imageUploadInput}
+                type="file"
+                style={{ display: 'none' }}
+              />
+              <Button
+                variant="primary"
+                onClick={() => imageUploadInput.current.click()}
+              >
+                Upload image
+              </Button>
+              {profileImage.hasProfileImage && (
+                <Button
+                  style={{ marginTop: '15px' }}
+                  variant="danger"
+                  onClick={() => {
+                    setProfileImage({
+                      hasProfileImage: false,
+                      image: uploadImageLogo
+                    });
+                    imageUploadInput.current.value = '';
+                  }}
+                >
+                  Remove image
+                </Button>
+              )}
+            </div>
             <Row>
               <Col>
                 <FloatingLabel
@@ -563,6 +654,162 @@ const EditorForm = ({ handleInputData, handlePDFLoading }) => {
               className={classes.addButton}
               variant="outline-primary"
               style={experiences.set.length > 0 ? { marginTop: 15 } : {}}
+            >
+              Add new
+            </Button>
+          </Accordion.Body>
+        </Accordion.Item>
+        <Accordion.Item eventKey="6">
+          <Accordion.Header>Education</Accordion.Header>
+          <Accordion.Body>
+            <Accordion defaultActiveKey="3">
+              {education.set.map((e, i) => {
+                return (
+                  <Accordion.Item key={i} eventKey={i}>
+                    <Accordion.Header>
+                      {e['educationTitleInput' + i]
+                        ? e['educationTitleInput' + i]
+                        : 'Ready.. Set.. Go..'}
+                    </Accordion.Header>
+                    <Accordion.Body>
+                      <FloatingLabel
+                        educationid={i}
+                        controlId={`educationTitleInput${i}`}
+                        label="Education title"
+                        className="mb-3"
+                      >
+                        <Form.Control
+                          value={education.set[i]['educationTitleInput' + i]}
+                          onChange={handleModifyEducation}
+                          type="text"
+                          placeholder="Software engineering student"
+                        />
+                      </FloatingLabel>
+
+                      <Row>
+                        <Col>
+                          {' '}
+                          <FloatingLabel
+                            educationid={i}
+                            controlId={`institutionNameInput${i}`}
+                            label="Institution name"
+                            className="mb-3"
+                          >
+                            <Form.Control
+                              value={
+                                education.set[i]['institutionNameInput' + i]
+                              }
+                              onChange={handleModifyEducation}
+                              type="text"
+                              placeholder="e.g Business Analyst"
+                            />
+                          </FloatingLabel>
+                        </Col>
+                        <Col>
+                          {' '}
+                          <FloatingLabel
+                            educationid={i}
+                            controlId={`locationInput${i}`}
+                            label="Location"
+                            className="mb-3"
+                          >
+                            <Form.Control
+                              value={education.set[i]['locationInput' + i]}
+                              onChange={handleModifyEducation}
+                              type="text"
+                              placeholder="e.g Business Analyst"
+                            />
+                          </FloatingLabel>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col>
+                          <FloatingLabel
+                            educationid={i}
+                            controlId={`startingDateInput${i}`}
+                            label="Starting date"
+                            className="mb-3"
+                          >
+                            <Form.Control
+                              value={education.set[i]['startingDateInput' + i]}
+                              onChange={handleModifyEducation}
+                              type="date"
+                              placeholder="e.g Business Analyst"
+                            />
+                          </FloatingLabel>
+                        </Col>
+                        <Col>
+                          <FloatingLabel
+                            educationid={i}
+                            controlId={`endingDateInput${i}`}
+                            label="Ending date"
+                            className="mb-3"
+                          >
+                            <Form.Control
+                              value={education.set[i]['endingDateInput' + i]}
+                              disabled={
+                                education.set[i]['presentWorkSwitch' + i] ===
+                                'on'
+                                  ? true
+                                  : false
+                              }
+                              onChange={handleModifyEducation}
+                              type="date"
+                              placeholder="e.g Business Analyst"
+                            />
+                          </FloatingLabel>
+                        </Col>
+                      </Row>
+                      <Form.Check
+                        disabled={
+                          education.set[i]['startingDateInput' + i]
+                            ? false
+                            : true
+                        }
+                        style={{ marginBottom: 15 }}
+                        educationid={i}
+                        id={`presentWorkSwitch${i}`}
+                        onChange={handleModifyEducation}
+                        type="switch"
+                        label="I am still studying here"
+                      ></Form.Check>
+                      <FloatingLabel
+                        educationid={i}
+                        controlId={`institutionDescriptionInput${i}`}
+                        label="Job description"
+                        className="mb-3"
+                      >
+                        <Form.Control
+                          value={
+                            education.set[i]['institutionDescriptionInput' + i]
+                          }
+                          onChange={handleModifyEducation}
+                          as="textarea"
+                          rows={3}
+                        />
+                        <Form.Text muted>
+                          Shortly give description about your education.
+                        </Form.Text>
+                      </FloatingLabel>
+                      <Button
+                        id={i}
+                        className={classes.removeButton}
+                        onClick={handleRemoveEducation}
+                        variant="outline-danger"
+                        style={{ marginTop: 15 }}
+                      >
+                        Remove
+                      </Button>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                );
+              })}
+            </Accordion>
+            <Button
+              onClick={handleAddEducation}
+              className={classes.addButton}
+              variant="outline-primary"
+              style={education.set.length > 0 ? { marginTop: 15 } : {}}
             >
               Add new
             </Button>

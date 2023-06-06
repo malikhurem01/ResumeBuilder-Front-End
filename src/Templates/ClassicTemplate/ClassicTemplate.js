@@ -1,5 +1,13 @@
 import React, { useEffect } from 'react';
-import { Document, Page, Text, View, Font, Link } from '@react-pdf/renderer';
+import {
+  Document,
+  Page,
+  Text,
+  View,
+  Font,
+  Link,
+  Image
+} from '@react-pdf/renderer';
 
 import { hyphenationCallback, factorDate } from '../../Utils/helper';
 
@@ -169,7 +177,9 @@ const ClassicTemplate = ({ data, handleUpdateDocument }) => {
                           hyphenationCallback={hyphenationCallback}
                           style={styles.subsectionText}
                         >
-                          {data.phoneNumber}
+                          {data.phoneNumber.includes('+')
+                            ? data.phoneNumber
+                            : `+${data.phoneNumber}`}
                         </Text>
                       </View>
                     )}
@@ -288,22 +298,82 @@ const ClassicTemplate = ({ data, handleUpdateDocument }) => {
                     <Text style={styles.sectionTitle}>Experience</Text>
                     <View style={styles.sectionUnderline}></View>
                     {data.experiences?.set.map(e => {
+                      if (e['jobTitleInput' + e.id]?.length > 0) {
+                        return (
+                          <View style={styles.detailedItem}>
+                            <View style={styles.detailedItemTitleAndLocation}>
+                              <Text style={styles.mainSectionItemTitle}>
+                                {`${
+                                  e['jobTitleInput' + e.id]
+                                    ? e['jobTitleInput' + e.id]
+                                    : ''
+                                }${
+                                  e['hoursInput' + e.id]
+                                    ? ', ' + e['hoursInput' + e.id]
+                                    : ''
+                                }${
+                                  e['companyNameInput' + e.id]
+                                    ? ', ' + e['companyNameInput' + e.id]
+                                    : ''
+                                }`}
+                              </Text>
+                              <Text style={styles.mainSectionItemLocation}>
+                                {`${
+                                  e['locationInput' + e.id]
+                                    ? e['locationInput' + e.id]
+                                    : ''
+                                }`}
+                              </Text>
+                            </View>
+                            {((e['startingDateInput' + e.id] &&
+                              e['presentWorkSwitch' + e.id] === 'on') ||
+                              (e['startingDateInput' + e.id] &&
+                                e['endingDateInput' + e.id])) && (
+                              <Text style={styles.mainSectionItemDate}>
+                                {`${factorDate(
+                                  e['startingDateInput' + e.id]
+                                )} - ${
+                                  e['presentWorkSwitch' + e.id] === 'on'
+                                    ? 'Present'
+                                    : factorDate(e['endingDateInput' + e.id])
+                                }`}
+                              </Text>
+                            )}
+                            <Text
+                              hyphenationCallback={hyphenationCallback}
+                              style={styles.mainSectionText}
+                            >
+                              {`${
+                                e['jobDescriptionInput' + e.id]
+                                  ? e['jobDescriptionInput' + e.id]
+                                  : ''
+                              }`}
+                            </Text>
+                          </View>
+                        );
+                      } else return false;
+                    })}
+                  </React.Fragment>
+                )}
+              </View>
+              <View style={styles.mainSection}>
+                {data?.education?.set.length > 0 && (
+                  <React.Fragment>
+                    <Text style={styles.sectionTitle}>Education</Text>
+                    <View style={styles.sectionUnderline}></View>
+                    {data.education?.set.map(e => {
                       return (
                         <View style={styles.detailedItem}>
                           <View style={styles.detailedItemTitleAndLocation}>
                             <Text style={styles.mainSectionItemTitle}>
                               {`${
-                                e['jobTitleInput' + e.id]
-                                  ? e['jobTitleInput' + e.id]
-                                  : '[Job Title]'
+                                e['educationTitleInput' + e.id]
+                                  ? e['educationTitleInput' + e.id]
+                                  : '[Education Title]'
                               }, ${
-                                e['hoursInput' + e.id]
-                                  ? e['hoursInput' + e.id]
-                                  : '[Hours]'
-                              }, ${
-                                e['companyNameInput' + e.id]
-                                  ? e['companyNameInput' + e.id]
-                                  : '[Company]'
+                                e['institutionNameInput' + e.id]
+                                  ? e['institutionNameInput' + e.id]
+                                  : '[Institution]'
                               }`}
                             </Text>
                             <Text style={styles.mainSectionItemLocation}>
@@ -332,7 +402,7 @@ const ClassicTemplate = ({ data, handleUpdateDocument }) => {
                             hyphenationCallback={hyphenationCallback}
                             style={styles.mainSectionText}
                           >
-                            {`${e['jobDescriptionInput' + e.id]}`}
+                            {`${e['institutionDescriptionInput' + e.id]}`}
                           </Text>
                         </View>
                       );
@@ -344,6 +414,9 @@ const ClassicTemplate = ({ data, handleUpdateDocument }) => {
           </View>
         </View>
         <View style={styles.header}>
+          {data.profileImage?.hasProfileImage && (
+            <Image src={data.profileImage.image} />
+          )}
           <Text style={styles.name}>
             {data.firstName
               ? `${data.firstName} ${data.lastName}`

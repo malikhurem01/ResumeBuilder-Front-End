@@ -94,7 +94,7 @@
   left: 0;
   height: 100%;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(149, 141, 141, 0.664);
   z-index: 100000;
   font-family: sans-serif;
   display: flex;
@@ -104,4 +104,29 @@
   font-size: 30px;
   font-weight: bold;
   padding-bottom: 150px;
+  flex-direction: column;
+  backdrop-filter: blur(6px);
+}
+
+.imageUploadContainer {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 25px;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 2px solid #cecece;
+  margin-bottom: 25px;
+}
+
+.imageUploadContainer img {
+  width: 100px;
+  height: auto;
+  margin-bottom: 15px;
+}
+
+.imageBorder img {
+  width: 150px;
+  border-radius: 50%;
+  border: 3px solid rgb(151, 192, 246);
 }

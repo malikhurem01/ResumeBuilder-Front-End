@@ -1,0 +1,62 @@
+.section {
+  background-color: #fff;
+  height: 85.5vh;
+  padding: 35px 60px;
+  position: relative;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+}
+
+.header h1 {
+  font-size: 25px;
+}
+
+.header ul {
+  display: flex;
+  flex-direction: row;
+  list-style-type: none;
+  justify-content: space-between;
+  width: 350px;
+}
+
+ul li {
+  font-weight: 500;
+}
+
+ul li a {
+  text-decoration: none;
+  color: #000;
+}
+
+.headerButtonContainer {
+  display: flex;
+  width: 160px;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.button {
+  border-radius: 18px;
+}
+
+.landingIntroductionContainer {
+  margin-top: 5vh;
+  display: flex;
+  flex-direction: row;
+}
+
+.landingIntroductionContainer div {
+  width: 50%;
+}
+
+.landingIntroduction {
+  margin-top: 7vh;
+  display: flex;
+  justify-content: center;
+}

@@ -5,11 +5,12 @@ import Login from './Components/Login';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Register from './Components/Register';
 import PDFEditor from './Components/PDFEditor';
+import Landing from './Components/Landing';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Login />
+    element: <Landing />
   },
   {
     path: '/login',

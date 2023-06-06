@@ -7,6 +7,8 @@ import EditorForm from './EditorForm';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import { Button } from 'react-bootstrap';
 
+import loadingSvg from '../Assets/loading.svg';
+
 const PDFEditor = () => {
   const [inputData, setInputData] = useState({});
 
@@ -45,7 +47,12 @@ const PDFEditor = () => {
       </div>
       <div className={classes.viewer}>
         <div className={classes.renderer}>
-          {isPDFLoading && <div className={classes.overlay}>Rendering...</div>}
+          {isPDFLoading && (
+            <div className={classes.overlay}>
+              <img src={loadingSvg} alt="Loading logo..." />
+              Rendering...
+            </div>
+          )}
           <PDFRender>
             <ClassicTemplate
               handleUpdateDocument={handleUpdateDocument}
