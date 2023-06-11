@@ -9,11 +9,12 @@ import {
   Button
 } from 'react-bootstrap';
 
-import uploadImageLogo from '../Assets/cameraIcon.png';
+import uploadImageLogo from '../../Assets/cameraIcon.png';
 
-import classes from './PDFEditor.module.css';
+import classes from './Styles/PDFEditor.module.css';
 
 const EditorForm = ({ handleInputData, handlePDFLoading }) => {
+  /************************ User data state *****************************/
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [title, setTitle] = useState('');
@@ -31,7 +32,7 @@ const EditorForm = ({ handleInputData, handlePDFLoading }) => {
   const [languages, setLanguages] = useState({ set: [] });
   const [skills, setSkills] = useState({ set: [] });
   const [links, setLinks] = useState({ set: [] });
-
+  /******************************************************************** */
   const imageUploadInput = useRef();
 
   const [profileImage, setProfileImage] = useState({

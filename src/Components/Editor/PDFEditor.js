@@ -1,14 +1,16 @@
 import React, { useState, useCallback } from 'react';
-import ClassicTemplate from '../Templates/ClassicTemplate/ClassicTemplate';
+import ClassicTemplate from '../../Templates/ClassicTemplate/ClassicTemplate';
 import PDFRender from './PDFRender';
 
-import classes from './PDFEditor.module.css';
+import classes from './Styles/PDFEditor.module.css';
+import '../../Pages/Styles/LandingPage.module.css';
 import EditorForm from './EditorForm';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import { Button } from 'react-bootstrap';
 
-import loadingSvg from '../Assets/loading.svg';
+import loadingSvg from '../../Assets/loading.svg';
 
+import { Link } from 'react-router-dom';
 const PDFEditor = () => {
   const [inputData, setInputData] = useState({});
 
@@ -29,7 +31,7 @@ const PDFEditor = () => {
   }, []);
 
   return (
-    <div className={classes.container}>
+    <div className={classes.editorContainer}>
       <div className={classes.formsContainer}>
         <EditorForm
           handleInputData={handleInputData}
@@ -44,11 +46,16 @@ const PDFEditor = () => {
             <Button variant="light">Download PDF</Button>
           )}
         </PDFDownloadLink>
+        <Button style={{ marginTop: '10px', width: '140px' }} variant="primary">
+          <Link to="/" style={{ color: '#fff' }}>
+            Go back
+          </Link>
+        </Button>
       </div>
       <div className={classes.viewer}>
         <div className={classes.renderer}>
           {isPDFLoading && (
-            <div className={classes.overlay}>
+            <div className={classes.overlayPDF}>
               <img src={loadingSvg} alt="Loading logo..." />
               Rendering...
             </div>
@@ -60,6 +67,7 @@ const PDFEditor = () => {
             />
           </PDFRender>
         </div>
+        <Button variant="primary">Select template</Button>
       </div>
     </div>
   );

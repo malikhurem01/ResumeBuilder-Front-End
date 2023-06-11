@@ -1,4 +1,4 @@
-.container {
+.editorContainer {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -78,6 +78,7 @@
   height: 100%;
   width: 50%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -86,7 +87,7 @@
   position: relative;
 }
 
-.overlay {
+.overlayPDF {
   position: absolute;
   top: 0;
   bottom: 0;
