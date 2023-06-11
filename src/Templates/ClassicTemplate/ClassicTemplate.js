@@ -29,6 +29,8 @@ Font.register({
 const ClassicTemplate = ({ data, handleUpdateDocument }) => {
   let document; // DOCUMENT TO BE RENDERED;
 
+  const TEMPLATE_SUPPORTS_IMAGE = false;
+
   useEffect(() => {
     handleUpdateDocument(document);
   }, [data, document, handleUpdateDocument]);
