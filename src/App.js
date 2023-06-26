@@ -17,14 +17,7 @@ const App = () => {
       <Route path="/signup" element={<Register />} />
       <Route
         path="/editor"
-        element={
-          Boolean(services.isAuthenticated() && userDataState) ? (
-            <PDFEditor />
-          ) : (
-            <Login />
-          )
-        }
-      />
+        element={<PDFEditor />} />
       <Route path="/resumes" element={<ResumesPage />} />
     </Routes>
   );
