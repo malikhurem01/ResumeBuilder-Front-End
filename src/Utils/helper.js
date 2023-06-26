@@ -75,4 +75,4 @@ const utils = {
   factorDate
 };
 
-module.exports = utils;
+export default utils;
