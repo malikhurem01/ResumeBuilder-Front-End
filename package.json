@@ -2,7 +2,7 @@
   "name": "resume-fr",
   "version": "0.1.0",
   "engines": {
-    "node": "10.19.0"
+    "node": "18.16.1"
   },
   "private": true,
   "dependencies": {
