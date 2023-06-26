@@ -9,7 +9,7 @@ import {
   Image
 } from '@react-pdf/renderer';
 
-import { hyphenationCallback, factorDate } from '../../Utils/helper';
+import utils from '../../Utils/helper';
 
 import ralewayBlack from '../../Fonts/Raleway/Raleway-Black.ttf';
 import ralewayLight from '../../Fonts/Raleway/Raleway-Light.ttf';
@@ -28,6 +28,8 @@ Font.register({
 
 const ClassicTemplate = ({ data, handleUpdateDocument }) => {
   let document; // DOCUMENT TO BE RENDERED;
+
+  const {hyphenationCallback, factorDate} = utils;
 
   const TEMPLATE_SUPPORTS_IMAGE = false;
 
