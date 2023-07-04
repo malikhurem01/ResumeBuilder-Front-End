@@ -9,7 +9,7 @@ import {
   FloatingLabel
 } from 'react-bootstrap';
 import services from '../Services/authService';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import PageWrapper from '../Components/PageWrapper';
 
 export default function Register() {
@@ -19,8 +19,6 @@ export default function Register() {
   const [password, setPassword] = useState('');
 
   const [error, setError] = useState(false);
-
-  const navigate = useNavigate();
 
   const handleFormSubmit = async ev => {
     ev.preventDefault();

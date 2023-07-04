@@ -32,7 +32,7 @@ const PageWrapper = ({ children, route }) => {
                 <Link to="/">Home</Link>
               </li>
               <li>
-                <a href="#">Features</a>
+                <Link to="#">Features</Link>
               </li>
 
               {ctx.userDataState ? (

@@ -297,11 +297,11 @@ const ClassicTemplate = ({ data, handleUpdateDocument }) => {
                 )}
               </View>
               <View style={styles.mainSection}>
-                {data?.experiences?.set.length > 0 && (
+                {data?.experiences?.set?.length > 0 && (
                   <React.Fragment>
                     <Text style={styles.sectionTitle}>Experience</Text>
                     <View style={styles.sectionUnderline}></View>
-                    {data.experiences?.set.map(e => {
+                    {data.experiences?.set?.map(e => {
                       if (e['jobTitleInput' + e.id]?.length > 0) {
                         return (
                           <View style={styles.detailedItem}>

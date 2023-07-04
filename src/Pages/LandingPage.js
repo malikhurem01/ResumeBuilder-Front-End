@@ -2,8 +2,6 @@ import React from 'react';
 
 import classes from './Styles/LandingPage.module.css';
 
-import imgShape from '../Assets/img/shape.png';
-import logo from '../Assets/img/logo.png';
 import imgPerson from '../Assets/img/person.png';
 import testimonialImg from '../Assets/img/avatar.png';
 import { Link } from 'react-router-dom';
@@ -35,7 +33,7 @@ const LandingPage = () => {
             <div className={classes.right}>
               <img
                 src={imgPerson}
-                alt="Person Image"
+                alt="Person"
                 className={classes.person}
               />
             </div>

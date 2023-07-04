@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 
 import {
   Form,
@@ -9,23 +9,13 @@ import {
   Button
 } from 'react-bootstrap';
 
-import uploadImageLogo from '../../Assets/cameraIcon.png';
 
 import classes from './Styles/PDFEditor.module.css';
+import PersonalDetails from './Forms/PersonalDetails';
 
 const EditorForm = ({ handleInputData, handlePDFLoading }) => {
-  /************************ User data state *****************************/
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [title, setTitle] = useState('');
-  const [city, setCity] = useState('');
-  const [zipCode, setZipCode] = useState('');
-  const [address, setAddress] = useState('');
-  const [country, setCountry] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [dateOfBirth, setDateOfBirth] = useState('');
+  
   const [profile, setProfile] = useState('');
-  const [email, setEmail] = useState('');
 
   const [experiences, setExperiences] = useState({ set: [] });
   const [education, setEducation] = useState({ set: [] });
@@ -33,20 +23,7 @@ const EditorForm = ({ handleInputData, handlePDFLoading }) => {
   const [skills, setSkills] = useState({ set: [] });
   const [links, setLinks] = useState({ set: [] });
   /******************************************************************** */
-  const imageUploadInput = useRef();
 
-  const [profileImage, setProfileImage] = useState({
-    hasProfileImage: false,
-    image: uploadImageLogo
-  });
-
-  const handleFirstNameInput = ev => {
-    setFirstName(ev.target.value);
-  };
-
-  const handleLastNameInput = ev => {
-    setLastName(ev.target.value);
-  };
 
   const handleAddExperience = () => {
     setExperiences(prevState => {
@@ -219,23 +196,12 @@ const EditorForm = ({ handleInputData, handlePDFLoading }) => {
     handlePDFLoading(true);
     const timer = setTimeout(() => {
       handleInputData({
-        firstName,
-        lastName,
-        title,
-        address,
-        country,
-        phoneNumber,
-        dateOfBirth,
         profile,
-        email,
-        city,
-        zipCode,
         experiences,
         languages,
         skills,
         links,
-        education,
-        profileImage
+        education
       });
     }, 800);
 
@@ -248,224 +214,21 @@ const EditorForm = ({ handleInputData, handlePDFLoading }) => {
       clearTimeout(timer);
     };
   }, [
-    firstName,
-    lastName,
-    title,
-    address,
-    country,
-    phoneNumber,
-    dateOfBirth,
+    
     profile,
-    email,
-    city,
-    zipCode,
     experiences,
     languages,
     skills,
     links,
     education,
-    profileImage,
     handleInputData,
     handlePDFLoading
   ]);
 
-  const handleUploadImage = ev => {
-    URL.revokeObjectURL(profileImage.src);
-    const image = URL.createObjectURL(ev.target.files[0]);
-    setProfileImage({ hasProfileImage: true, image: image });
-  };
-
   return (
     <Form className={classes.forms}>
       <Accordion defaultActiveKey="0" alwaysOpen={true}>
-        <Accordion.Item eventKey="0">
-          <Accordion.Header>Personal Details</Accordion.Header>
-          <Accordion.Body>
-            <div
-              className={`${classes.imageUploadContainer} ${
-                profileImage.hasProfileImage ? classes.imageBorder : ''
-              }`}
-            >
-              <img src={profileImage.image} alt="upload logo icon" />
-              <input
-                id="fileInput"
-                onChange={handleUploadImage}
-                ref={imageUploadInput}
-                type="file"
-                style={{ display: 'none' }}
-              />
-              <Button
-                variant="primary"
-                onClick={() => imageUploadInput.current.click()}
-              >
-                Upload image
-              </Button>
-              {profileImage.hasProfileImage && (
-                <Button
-                  style={{ marginTop: '15px' }}
-                  variant="danger"
-                  onClick={() => {
-                    setProfileImage({
-                      hasProfileImage: false,
-                      image: uploadImageLogo
-                    });
-                    imageUploadInput.current.value = '';
-                  }}
-                >
-                  Remove image
-                </Button>
-              )}
-            </div>
-            <Row>
-              <Col>
-                <FloatingLabel
-                  controlId="firstNameInput"
-                  label="First name"
-                  className="mb-3"
-                >
-                  <Form.Control
-                    value={firstName}
-                    onChange={handleFirstNameInput}
-                    type="text"
-                    placeholder="John"
-                  />
-                </FloatingLabel>
-              </Col>
-              <Col>
-                <FloatingLabel controlId="lastNameInput" label="Last name">
-                  <Form.Control
-                    value={lastName}
-                    onChange={handleLastNameInput}
-                    type="text"
-                    placeholder="Doe"
-                  />
-                </FloatingLabel>
-              </Col>
-            </Row>
-            <FloatingLabel
-              controlId="titleInput"
-              label="Title"
-              className="mb-3"
-            >
-              <Form.Control
-                value={title}
-                onChange={ev => setTitle(ev.target.value)}
-                type="text"
-                placeholder="e.g Business Analyst"
-              />
-              <Form.Text muted>
-                Introduce yourself in a one-liner. Example: Social Marketing
-                Specialist
-              </Form.Text>
-            </FloatingLabel>
-            <Row>
-              <Col>
-                <FloatingLabel
-                  controlId="addressInput"
-                  label="Full Address"
-                  className="mb-3"
-                >
-                  <Form.Control
-                    value={address}
-                    onChange={ev => setAddress(ev.target.value)}
-                    type="text"
-                    placeholder="e.g Business Analyst"
-                  />
-                  <Form.Text muted>Include your house number.</Form.Text>
-                </FloatingLabel>
-              </Col>
-              <Col>
-                <FloatingLabel
-                  controlId="cityInput"
-                  label="City"
-                  className="mb-3"
-                >
-                  <Form.Control
-                    value={city}
-                    onChange={ev => setCity(ev.target.value)}
-                    type="text"
-                    placeholder="e.g Business Analyst"
-                  />
-                </FloatingLabel>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <FloatingLabel
-                  controlId="countryInput"
-                  label="Country"
-                  className="mb-3"
-                >
-                  <Form.Control
-                    value={country}
-                    onChange={ev => setCountry(ev.target.value)}
-                    type="text"
-                    placeholder="e.g Business Analyst"
-                  />
-                </FloatingLabel>
-              </Col>
-              <Col>
-                <FloatingLabel
-                  controlId="zipCodeInput"
-                  label="ZIP Code"
-                  className="mb-3"
-                >
-                  <Form.Control
-                    value={zipCode}
-                    onChange={ev => setZipCode(ev.target.value)}
-                    type="number"
-                    placeholder="e.g Business Analyst"
-                  />
-                </FloatingLabel>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <FloatingLabel
-                  controlId="phoneNumberInput"
-                  label="Phone number"
-                  className="mb-3"
-                >
-                  <Form.Control
-                    value={phoneNumber}
-                    onChange={ev => setPhoneNumber(ev.target.value)}
-                    type="number"
-                    placeholder="e.g Business Analyst"
-                  />
-                  <Form.Text id="phone" muted>
-                    Make sure to put your country code.
-                  </Form.Text>
-                </FloatingLabel>
-              </Col>
-              <Col>
-                <FloatingLabel
-                  controlId="emailAddressInput"
-                  label="Email address"
-                  className="mb-3"
-                >
-                  <Form.Control
-                    value={email}
-                    onChange={ev => setEmail(ev.target.value)}
-                    type="email"
-                    placeholder="e.g Business Analyst"
-                  />
-                </FloatingLabel>
-              </Col>
-            </Row>
-            <FloatingLabel
-              controlId="dateOfBirthInput"
-              label="Date of birth"
-              className="mb-3"
-            >
-              <Form.Control
-                value={dateOfBirth}
-                onChange={ev => setDateOfBirth(ev.target.value)}
-                type="date"
-                placeholder="e.g Business Analyst"
-              />
-            </FloatingLabel>
-          </Accordion.Body>
-        </Accordion.Item>
+        <PersonalDetails handleInputData={handleInputData} handlePDFLoading={handlePDFLoading} />
         <Accordion.Item eventKey="1">
           <Accordion.Header>Describe your profile</Accordion.Header>
           <Accordion.Body>

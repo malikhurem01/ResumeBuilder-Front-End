@@ -12,14 +12,23 @@ import loadingSvg from '../../Assets/loading.svg';
 
 import { Link } from 'react-router-dom';
 const PDFEditor = () => {
-  const [inputData, setInputData] = useState({});
+  const [inputData, setInputData] = useState({firstName: null, lastName: null, email: null, title: null, country: null, address:null, phoneNumber:null, city: null, dateOfBirth: null, zipCode: null, profileImage:null, experiences: null, education: null, links: null, profile:null, skills: null, languages: null});
 
   const [pdfDocument, setPdfDocument] = useState(<div></div>);
 
   const [isPDFLoading, setIsPDFLoading] = useState(false);
 
   const handleInputData = useCallback(data => {
-    setInputData(data);
+    var overrideExistingProperties = function (theTarget, theSource){
+      for (var property in theSource)
+          if (theSource.hasOwnProperty(property) && theTarget.hasOwnProperty(property))
+              theTarget[property] = theSource[property];
+  };
+
+    setInputData(prevData => {
+      overrideExistingProperties(prevData, data);
+      return prevData;
+    });
   }, []);
 
   const handlePDFLoading = useCallback(value => {
