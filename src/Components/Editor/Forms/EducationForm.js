@@ -11,67 +11,65 @@ import {
 
 import classes from '../Styles/PDFEditor.module.css';
 
-const EducationForm = ({handleInputData, handlePDFLoading}) => {
-    const [education, setEducation] = useState({ set: [] });
+const EducationForm = ({ handleInputData, handlePDFLoading }) => {
+  const [education, setEducation] = useState({ set: [] });
 
-    const handleAddEducation = () => {
-        setEducation(prevState => {
-          const UPDATED_STATE = { set: [...prevState.set, {}] };
-          return UPDATED_STATE;
-        });
-      };
-      const handleModifyEducation = ev => {
-        let value, field, position;
-        value = ev.target.value;
-        field = ev.target.getAttribute('id');
-    
-        if (ev.target.id.includes('presentWorkSwitch')) {
-          position = ev.target.getAttribute('educationid');
-    
-          if (ev.target.value === 'on') ev.target.value = 'off';
-          else ev.target.value = 'on';
-        } else {
-          position = ev.target.parentNode.getAttribute('educationid');
-        }
-        setEducation(prevState => {
-          const UPDATED_STATE = { set: [...prevState.set] };
-          UPDATED_STATE.set[position][field] = value;
-          UPDATED_STATE.set[position].id = position;
-          return UPDATED_STATE;
-        });
-      };
-    
-      const handleRemoveEducation = ev => {
-        setEducation(prevState => {
-          const UPDATED_STATE = { set: [...prevState.set] };
-          UPDATED_STATE.set.splice(ev.target.id, 1);
-          return UPDATED_STATE;
-        });
-      };
+  const handleAddEducation = () => {
+    setEducation(prevState => {
+      const UPDATED_STATE = { set: [...prevState.set, {}] };
+      return UPDATED_STATE;
+    });
+  };
 
-      useEffect(() => {
-        handlePDFLoading(true);
-        const timer = setTimeout(() => {
-          handleInputData({
-            education
-          });
-        }, 800);
-    
-        const loadingTimer = setTimeout(() => {
-          handlePDFLoading(false);
-        }, 1200);
-    
-        return () => {
-          clearTimeout(loadingTimer);
-          clearTimeout(timer);
-        };
-      }, [
-        education,
-        handleInputData,
-        handlePDFLoading
-      ]);
+  const handleModifyEducation = ev => {
+    let value, field, position;
+    value = ev.target.value;
+    field = ev.target.getAttribute('id');
 
-      return         <Accordion.Item eventKey="3">
+    if (ev.target.id.includes('presentWorkSwitch')) {
+      position = ev.target.getAttribute('educationid');
+
+      if (ev.target.value === 'on') ev.target.value = 'off';
+      else ev.target.value = 'on';
+    } else {
+      position = ev.target.parentNode.getAttribute('educationid');
+    }
+    setEducation(prevState => {
+      const UPDATED_STATE = { set: [...prevState.set] };
+      UPDATED_STATE.set[position][field] = value;
+      UPDATED_STATE.set[position].id = position;
+      return UPDATED_STATE;
+    });
+  };
+
+  const handleRemoveEducation = ev => {
+    setEducation(prevState => {
+      const UPDATED_STATE = { set: [...prevState.set] };
+      UPDATED_STATE.set.splice(ev.target.id, 1);
+      return UPDATED_STATE;
+    });
+  };
+
+  useEffect(() => {
+    handlePDFLoading(true);
+    const timer = setTimeout(() => {
+      handleInputData({
+        education
+      });
+    }, 800);
+
+    const loadingTimer = setTimeout(() => {
+      handlePDFLoading(false);
+    }, 1200);
+
+    return () => {
+      clearTimeout(loadingTimer);
+      clearTimeout(timer);
+    };
+  }, [education, handleInputData, handlePDFLoading]);
+
+  return (
+    <Accordion.Item eventKey="3">
       <Accordion.Header>Education</Accordion.Header>
       <Accordion.Body>
         <Accordion defaultActiveKey="3">
@@ -108,9 +106,7 @@ const EducationForm = ({handleInputData, handlePDFLoading}) => {
                         className="mb-3"
                       >
                         <Form.Control
-                          value={
-                            education.set[i]['institutionNameInput' + i]
-                          }
+                          value={education.set[i]['institutionNameInput' + i]}
                           onChange={handleModifyEducation}
                           type="text"
                           placeholder="e.g Business Analyst"
@@ -160,8 +156,7 @@ const EducationForm = ({handleInputData, handlePDFLoading}) => {
                         <Form.Control
                           value={education.set[i]['endingDateInput' + i]}
                           disabled={
-                            education.set[i]['presentWorkSwitch' + i] ===
-                            'on'
+                            education.set[i]['presentWorkSwitch' + i] === 'on'
                               ? true
                               : false
                           }
@@ -174,9 +169,7 @@ const EducationForm = ({handleInputData, handlePDFLoading}) => {
                   </Row>
                   <Form.Check
                     disabled={
-                      education.set[i]['startingDateInput' + i]
-                        ? false
-                        : true
+                      education.set[i]['startingDateInput' + i] ? false : true
                     }
                     style={{ marginBottom: 15 }}
                     educationid={i}
@@ -227,6 +220,7 @@ const EducationForm = ({handleInputData, handlePDFLoading}) => {
         </Button>
       </Accordion.Body>
     </Accordion.Item>
-}
+  );
+};
 
 export default EducationForm;

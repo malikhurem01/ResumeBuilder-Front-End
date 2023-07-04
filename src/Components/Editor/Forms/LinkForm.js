@@ -1,64 +1,60 @@
-import { useState, useEffect } from "react";
-import {Form, Accordion, FloatingLabel, Button} from 'react-bootstrap';
+import { useState, useEffect } from 'react';
+import { Form, Accordion, FloatingLabel, Button } from 'react-bootstrap';
 
 import classes from '../Styles/PDFEditor.module.css';
 
-const LinkForm = ({handleInputData, handlePDFLoading}) => {
+const LinkForm = ({ handleInputData, handlePDFLoading }) => {
+  const [links, setLinks] = useState({ set: [] });
 
-    const [links, setLinks] = useState({ set: [] });
+  const handleAddLink = () => {
+    setLinks(prevState => {
+      const UPDATED_STATE = { set: [...prevState.set, {}] };
+      return UPDATED_STATE;
+    });
+  };
 
-    const handleAddLink = () => {
-        setLinks(prevState => {
-          const UPDATED_STATE = { set: [...prevState.set, {}] };
-          return UPDATED_STATE;
-        });
-      };
-    
-      const handleRemoveLink = ev => {
-        setLinks(prevState => {
-          const UPDATED_STATE = { set: [...prevState.set] };
-          UPDATED_STATE.set.splice(ev.target.id, 1);
-          console.log(UPDATED_STATE);
-          return UPDATED_STATE;
-        });
-      };
-    
-      const handleModifyLink = ev => {
-        let value, field, position;
-        value = ev.target.value;
-        field = ev.target.getAttribute('id');
-        position = ev.target.parentNode.getAttribute('linkid');
-        setLinks(prevState => {
-          const UPDATED_STATE = { set: [...prevState.set] };
-          UPDATED_STATE.set[position][field] = value;
-          UPDATED_STATE.set[position].id = position;
-          return UPDATED_STATE;
-        });
-      };
+  const handleModifyLink = ev => {
+    let value, field, position;
+    value = ev.target.value;
+    field = ev.target.getAttribute('id');
+    position = ev.target.parentNode.getAttribute('linkid');
+    setLinks(prevState => {
+      const UPDATED_STATE = { set: [...prevState.set] };
+      UPDATED_STATE.set[position][field] = value;
+      UPDATED_STATE.set[position].id = position;
+      return UPDATED_STATE;
+    });
+  };
 
-      useEffect(() => {
-        handlePDFLoading(true);
-        const timer = setTimeout(() => {
-          handleInputData({
-            links
-              });
-        }, 800);
-    
-        const loadingTimer = setTimeout(() => {
-          handlePDFLoading(false);
-        }, 1200);
-    
-        return () => {
-          clearTimeout(loadingTimer);
-          clearTimeout(timer);
-        };
-      }, [
-        links,
-        handleInputData,
-        handlePDFLoading
-      ]);
+  const handleRemoveLink = ev => {
+    setLinks(prevState => {
+      const UPDATED_STATE = { set: [...prevState.set] };
+      UPDATED_STATE.set.splice(ev.target.id, 1);
+      console.log(UPDATED_STATE);
+      return UPDATED_STATE;
+    });
+  };
 
-      return <Accordion.Item eventKey="4">
+  useEffect(() => {
+    handlePDFLoading(true);
+    const timer = setTimeout(() => {
+      handleInputData({
+        links
+      });
+    }, 800);
+
+    const loadingTimer = setTimeout(() => {
+      handlePDFLoading(false);
+    }, 1200);
+
+    return () => {
+      clearTimeout(loadingTimer);
+      clearTimeout(timer);
+    };
+  }, [links, handleInputData, handlePDFLoading]);
+
+  return (
+    <Accordion.Item eventKey="4">
       <Accordion.Header>Links</Accordion.Header>
       <Accordion.Body className={classes.languagesBody}>
         {links?.set?.map((s, i) => {
@@ -120,6 +116,7 @@ const LinkForm = ({handleInputData, handlePDFLoading}) => {
         </Button>
       </Accordion.Body>
     </Accordion.Item>
-}
+  );
+};
 
 export default LinkForm;
