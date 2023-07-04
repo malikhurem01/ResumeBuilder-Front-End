@@ -114,11 +114,11 @@ const ClassicTemplate = ({ data, handleUpdateDocument }) => {
   };
 
   const checkLink = () => {
-    return data.links?.set.length > 0;
+    return data.links?.set?.length > 0;
   };
 
   const checkSkills = () => {
-    return data?.skills?.set.length > 0;
+    return data?.skills?.set?.length > 0;
   };
 
   const checkLanguages = () => {
@@ -220,7 +220,7 @@ const ClassicTemplate = ({ data, handleUpdateDocument }) => {
                   <View style={styles.asideSection}>
                     <Text style={styles.sectionTitle}>Links</Text>
                     <View style={styles.sectionUnderline}></View>
-                    {data.links.set.map((l, i) => {
+                    {data.links.set?.map((l, i) => {
                       return (
                         <Link style={styles.link} src={l['linkInput' + i]}>
                           {l['linkNameInput' + i]}
@@ -233,7 +233,7 @@ const ClassicTemplate = ({ data, handleUpdateDocument }) => {
                   <View style={styles.asideSection}>
                     <Text style={styles.sectionTitle}>Technologies</Text>
                     <View style={styles.sectionUnderline}></View>
-                    {data.skills.set.map((s, i) => {
+                    {data.skills.set?.map((s, i) => {
                       return (
                         <React.Fragment>
                           <Text style={styles.technology}>
