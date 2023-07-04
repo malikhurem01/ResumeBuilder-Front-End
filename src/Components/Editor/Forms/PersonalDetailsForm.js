@@ -1,11 +1,8 @@
-import { useState, useRef, useEffect } from "react";
-import { Form, Accordion, Button, Row, Col, FloatingLabel } from "react-bootstrap";
-import classes from "../Styles/PDFEditor.module.css";
+import { useState, useEffect } from "react";
+import { Form, Accordion, Row, Col, FloatingLabel } from "react-bootstrap";
+import ImageUploadForm from "./ImageUploadForm";
 
-import uploadImageLogo from '../../../Assets/cameraIcon.png';
-
-
-const PersonalDetails = ({handleInputData, handlePDFLoading}) => {
+const PersonalDetailsForm = ({handleInputData, handlePDFLoading}) => {
     /************************ User data state *****************************/
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -49,24 +46,13 @@ const PersonalDetails = ({handleInputData, handlePDFLoading}) => {
     setEmail(ev.target.value);
   }
 
-  const imageUploadInput = useRef();
 
-  const [profileImage, setProfileImage] = useState({
-    hasProfileImage: false,
-    image: uploadImageLogo
-  });
-
-  const handleUploadImage = ev => {
-    URL.revokeObjectURL(profileImage.src);
-    const image = URL.createObjectURL(ev.target.files[0]);
-    setProfileImage({ hasProfileImage: true, image: image });
-  };
 
   useEffect(() => {
     handlePDFLoading(true);
     const timer = setTimeout(() => {
       handleInputData({
-        profileImage, firstName, lastName, title, city, zipCode, country, phoneNumber, email, address, dateOfBirth
+        firstName, lastName, title, city, zipCode, country, phoneNumber, email, address, dateOfBirth
       });
     }, 800);
 
@@ -80,7 +66,7 @@ const PersonalDetails = ({handleInputData, handlePDFLoading}) => {
     };
   }, [
     
-    profileImage, firstName, lastName, title, city, zipCode, country, phoneNumber, email, address, dateOfBirth,
+    firstName, lastName, title, city, zipCode, country, phoneNumber, email, address, dateOfBirth,
     handleInputData,
     handlePDFLoading
   ]);
@@ -88,41 +74,7 @@ const PersonalDetails = ({handleInputData, handlePDFLoading}) => {
     return <Accordion.Item eventKey="0">
     <Accordion.Header>Personal Details</Accordion.Header>
     <Accordion.Body>
-      <div
-        className={`${classes.imageUploadContainer} ${
-          profileImage.hasProfileImage ? classes.imageBorder : ''
-        }`}
-      >
-        <img src={profileImage.image} alt="upload logo icon" />
-        <input
-          id="fileInput"
-          onChange={handleUploadImage}
-          ref={imageUploadInput}
-          type="file"
-          style={{ display: 'none' }}
-        />
-        <Button
-          variant="primary"
-          onClick={() => imageUploadInput.current.click()}
-        >
-          Upload image
-        </Button>
-        {profileImage.hasProfileImage && (
-          <Button
-            style={{ marginTop: '15px' }}
-            variant="danger"
-            onClick={() => {
-              setProfileImage({
-                hasProfileImage: false,
-                image: uploadImageLogo
-              });
-              imageUploadInput.current.value = '';
-            }}
-          >
-            Remove image
-          </Button>
-        )}
-      </div>
+      <ImageUploadForm handleInputData={handleInputData} handlePDFLoading={handlePDFLoading} />
       <Row>
         <Col>
           <FloatingLabel
@@ -275,4 +227,4 @@ const PersonalDetails = ({handleInputData, handlePDFLoading}) => {
   </Accordion.Item>
 }
 
-export default PersonalDetails;
+export default PersonalDetailsForm;
