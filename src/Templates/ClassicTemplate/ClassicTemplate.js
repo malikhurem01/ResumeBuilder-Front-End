@@ -1,13 +1,5 @@
 import React, { useEffect } from 'react';
-import {
-  Document,
-  Page,
-  Text,
-  View,
-  Font,
-  Link,
-  Image
-} from '@react-pdf/renderer';
+import { Document, Page, Text, View, Font, Link } from '@react-pdf/renderer';
 
 import utils from '../../Utils/helper';
 
@@ -26,16 +18,13 @@ Font.register({
   ]
 });
 
-const ClassicTemplate = ({ data, handleUpdateDocument }) => {
+const ClassicTemplate = ({ data, handleUpdateDocument, isPDFLoading }) => {
   let document; // DOCUMENT TO BE RENDERED;
-
-  const {hyphenationCallback, factorDate} = utils;
-
-  const TEMPLATE_SUPPORTS_IMAGE = false;
+  const { hyphenationCallback, factorDate } = utils;
 
   useEffect(() => {
     handleUpdateDocument(document);
-  }, [data, document, handleUpdateDocument]);
+  }, [data, handleUpdateDocument, document, isPDFLoading]);
 
   const renderLanguageLevelIndicator = level => {
     let indicatorComponents = [];
@@ -418,9 +407,6 @@ const ClassicTemplate = ({ data, handleUpdateDocument }) => {
           </View>
         </View>
         <View style={styles.header}>
-          {data.profileImage?.hasProfileImage && (
-            <Image src={data.profileImage.image} />
-          )}
           <Text style={styles.name}>
             {data.firstName
               ? `${data.firstName} ${data.lastName}`

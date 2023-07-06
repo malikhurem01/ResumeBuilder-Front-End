@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Form, Accordion, Row, Col, FloatingLabel } from 'react-bootstrap';
 import ImageUploadForm from './ImageUploadForm';
+import EditorContext from '../../../Store/editor-context-api';
 
 const PersonalDetailsForm = ({ handleInputData, handlePDFLoading }) => {
   /************************ User data state *****************************/
@@ -14,6 +15,8 @@ const PersonalDetailsForm = ({ handleInputData, handlePDFLoading }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState('');
   const [email, setEmail] = useState('');
+
+  const ctx = useContext(EditorContext);
 
   const handleSetFirstName = ev => {
     setFirstName(ev.target.value);
@@ -90,10 +93,12 @@ const PersonalDetailsForm = ({ handleInputData, handlePDFLoading }) => {
     <Accordion.Item eventKey="0">
       <Accordion.Header>Personal Details</Accordion.Header>
       <Accordion.Body>
-        <ImageUploadForm
-          handleInputData={handleInputData}
-          handlePDFLoading={handlePDFLoading}
-        />
+        {ctx.supportsImage && (
+          <ImageUploadForm
+            handleInputData={handleInputData}
+            handlePDFLoading={handlePDFLoading}
+          />
+        )}
         <Row>
           <Col>
             <FloatingLabel

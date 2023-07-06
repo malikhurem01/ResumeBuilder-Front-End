@@ -5,6 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import { AuthContextProvider } from './Store/auth-context-api';
 import services from './Services/authService';
+import { EditorContextProvider } from './Store/editor-context-api';
 
 const initialize = async () => {
   let token = JSON.parse(localStorage.getItem('user_jwt'));
@@ -29,9 +30,11 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 const startApplication = user => {
   root.render(
     <AuthContextProvider userData={user}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <EditorContextProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </EditorContextProvider>
     </AuthContextProvider>
   );
 };
